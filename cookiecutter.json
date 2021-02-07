@@ -1,11 +1,10 @@
 {
     "project_name": "My New Project",
-    "project_slug": "{{ cookiecutter.project_name|lower|replace(' ', '-') }}",
-    "package_name": "{{ cookiecutter.project_slug|replace('-', '') }}",
-    "package_description": "Short description",
-    "author": "{{ env['USER_FULL_NAME'] or 'Author' }}",
-    "email": "{{ env['USER_EMAIL'] or 'author@email.com' }}",
-    "github_user": "{{ env['GITHUB_USER'] or env['USERNAME'] or 'username' }}",
+    "project_description": "Short description",
+    "version": "0.1.0",
+    "author": "{{ 'Author' }}",
+    "email": "{{ 'author@email.com' }}",
+    "github_user": "{{ 'username' }}",
     "license": [
         "MIT",
         "BSD-3",
@@ -16,5 +15,8 @@
         "reStructuredText",
         "Markdown"
     ],
-    "version": "0.1.0"
+    "_project_slug": "{{ cookiecutter.project_name|lower|replace(' ', '-') }}",
+    "_package_name": "{{ cookiecutter._project_slug|replace('-', '') }}",
+    "_use_markdown": "{{ True if cookiecutter.documentation_type == 'Markdown' else False }}",
+    "_doc_ext": "{{ 'md' if cookiecutter._use_markdown else 'rst' }}"
 }

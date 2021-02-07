@@ -1,0 +1,17 @@
+{% if cookiecutter._use_markdown -%}
+# Usage
+{% else -%}
+Usage
+=====
+{%- endif %}
+
+
+{% if cookiecutter._use_markdown -%}
+```eval_rst
+{%- endif %}
+.. click:: {{cookiecutter._package_name}}.__main__:main
+   :prog: {{cookiecutter._project_slug}}
+   :nested: full
+{% if cookiecutter._use_markdown -%}
+```
+{%- endif %}

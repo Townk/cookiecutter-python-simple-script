@@ -3,18 +3,18 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
-name = "{{ cookiecutter.project_slug }}"
+name = "{{ cookiecutter._project_slug }}"
 version = "{{ cookiecutter.version }}"
-description = "{{ cookiecutter.package_description }}"
+description = "{{ cookiecutter._project_description }}"
 authors = [
     "{{ cookiecutter.author }} <{{ cookiecutter.email }}>"
 ]
 license = "{{ cookiecutter.license }}"
-readme = "README.{{ 'md' if cookiecutter.documentation_type == 'Markdown' else 'rst' }}"
+readme = "README.{{ cookiecutter._doc_ext }}"
 
-homepage = "https://github.com/{{ cookiecutter.github_user }}/{{ cookiecutter.project_slug }}"
-repository = "https://github.com/{{ cookiecutter.github_user }}/{{ cookiecutter.project_slug }}"
-documentation = "https://{{ cookiecutter.project_slug }}.readthedocs.io"
+homepage = "https://github.com/{{ cookiecutter.github_user }}/{{ cookiecutter._project_slug }}"
+repository = "https://github.com/{{ cookiecutter.github_user }}/{{ cookiecutter._project_slug }}"
+documentation = "https://{{ cookiecutter._project_slug }}.readthedocs.io"
 
 # Pypi classifiers: https://pypi.org/classifiers/
 classifiers = [  # Update me
@@ -29,17 +29,17 @@ classifiers = [  # Update me
 
 # Keywords description https://python-poetry.org/docs/pyproject/#keywords
 keywords = [
-    "{{ cookiecutter.project_slug }}",
-    "{{ cookiecutter.package_name }}",
+    "{{ cookiecutter._project_slug }}",
+    "{{ cookiecutter._package_name }}",
 ]
 
 packages = [
-    { include = "{{ cookiecutter.package_name }}", from = "src" },
+    { include = "{{ cookiecutter._package_name }}", from = "src" },
 ]
 
 [tool.poetry.scripts]
 # Entry points for the package https://python-poetry.org/docs/pyproject/#scripts
-{{cookiecutter.project_name}} = "{{cookiecutter.package_name}}.__main__:main"
+{{cookiecutter._project_slug}} = "{{cookiecutter._package_name}}.__main__:main"
 
 [tool.poetry.dependencies]
 python = "^3.7"
@@ -63,7 +63,7 @@ pre-commit = "^2.9.3"
 Pygments = "^2.7.4"
 pylint = "^2.6.0"
 pytest = "^5.2"
-{% if cookiecutter.documentation_type == 'Markdown' -%}
+{% if cookiecutter._use_markdown -%}
 recommonmark = "^0.7.1"
 {% endif %}
 safety = "^1.10.3"
@@ -77,7 +77,7 @@ source = ["src", "*/site-packages"]
 
 [tool.coverage.run]
 branch = true
-source = ["{{ cookiecutter.package_name}} "]
+source = ["{{ cookiecutter._package_name}} "]
 
 [tool.coverage.report]
 show_missing = true

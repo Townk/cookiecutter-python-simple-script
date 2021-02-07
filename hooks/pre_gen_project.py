@@ -5,7 +5,7 @@ import sys
 import shutil
 
 MODULE_REGEX = r"^[a-z][a-z0-9\-\_]+[a-z0-9]$"
-module_name = "{{ cookiecutter.package_name }}"
+module_name = "{{ cookiecutter._package_name }}"
 
 
 def validate_project_name() -> None:
@@ -30,8 +30,8 @@ def validate_git() -> None:
 
 
 def validate_lice() -> None:
-    if not shutil.which("lice"):
-        message = "Could not find `lice` on your PATH. Make sure you have `lice` installed " + \
+    if not shutil.which("lice6"):
+        message = "Could not find `lice6` on your PATH. Make sure you have `lice` installed " + \
             "and its binary on you PATH environment variable."
 
         raise ValueError(message)

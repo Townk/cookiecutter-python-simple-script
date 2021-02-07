@@ -18,13 +18,13 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx_click",
     "sphinx_rtd_theme",
-    {% if cookiecutter.documentation_type == 'Markdown' -%}
+    {% if cookiecutter._use_markdown -%}
     "recommonmark",
     "sphinx.ext.autosectionlabel",
     {%- endif %}
 ]
 source_suffix = [
-    ".{{ 'md' if cookiecutter.documentation_type == 'Markdown' else 'rst' }}",
+    ".{{ cookiecutter._doc_ext }}",
 ]
 master_doc = "index"
 version = "{{ cookiecutter.version }}"

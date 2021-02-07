@@ -1,4 +1,4 @@
-{% if cookiecutter.documentation_type == 'Markdown' -%}
+{% if cookiecutter._use_markdown -%}
 ```eval_rst
 {%- endif %}
 .. include:: ../README.rst
@@ -6,11 +6,11 @@
 
 .. _Contributor Guide: contributing.html
 .. _Usage: usage.html
-{% if cookiecutter.documentation_type == 'Markdown' -%}
+{% if cookiecutter._use_markdown -%}
 ```
 {%- endif %}
 
-{% if cookiecutter.documentation_type == 'Markdown' -%}
+{% if cookiecutter._use_markdown -%}
 * [Usage](usage.md)
 * [Reeference](reference.md)
 * [License](license.md)
