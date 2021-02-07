@@ -2,6 +2,7 @@
     "project_name": "My New Project",
     "project_slug": "{{ cookiecutter.project_name|lower|replace(' ', '-') }}",
     "package_name": "{{ cookiecutter.project_slug|replace('-', '') }}",
+    "package_description": "Short description",
     "author": "{{ env['USER_FULL_NAME'] or 'Author' }}",
     "email": "{{ env['USER_EMAIL'] or 'author@email.com' }}",
     "github_user": "{{ env['GITHUB_USER'] or env['USERNAME'] or 'username' }}",
@@ -10,6 +11,10 @@
         "BSD-3",
         "GNU GPL v3.0",
         "Apache Software License 2.0"
+    ],
+    "documentation_type": [
+        "reStructuredText",
+        "Markdown"
     ],
     "version": "0.1.0"
 }
