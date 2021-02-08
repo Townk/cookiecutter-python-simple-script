@@ -3,9 +3,10 @@ from typing import Callable, List
 import re
 import sys
 import shutil
+import textwrap
 
 MODULE_REGEX = r"^[a-z][a-z0-9\-\_]+[a-z0-9]$"
-module_name = "{{ cookiecutter._package_name }}"
+module_name = "{{ cookiecutter.__project_slug }}"
 
 
 def validate_project_name() -> None:
@@ -16,25 +17,38 @@ def validate_project_name() -> None:
         ValueError: If module_name is not a valid Python module name
     """
     if not re.match(MODULE_REGEX, module_name):
-        message = f"ERROR: The project name `{module_name}` is not a valid Python module name."
+        message = f"ERROR: The project name '{module_name}' is not a valid Python module name."
 
         raise ValueError(message)
 
 
 def validate_git() -> None:
-    if not shutil.which("git"):
-        message = "Could not find `git` on your PATH. Make sure you have git installed and " + \
-            "its binary on you PATH environment variable."
+    if "{{ cookiecutter.create_git_repository }}" == "Yes":
+        if not shutil.which("git"):
+            message = """You chose to create a git repository for your project, but I could not
+                      find the 'git' binary in your PATH.
 
-        raise ValueError(message)
+                      Check the documentation at https://git-scm.com to install 'git' and make sure
+                      it's binary is located on a directory listed in your PATH environment
+                      variable."""
+
+            raise FileNotFoundError(textwrap.dedent(message))
 
 
 def validate_lice() -> None:
-    if not shutil.which("lice6"):
-        message = "Could not find `lice6` on your PATH. Make sure you have `lice` installed " + \
-            "and its binary on you PATH environment variable."
+    if "{{ cookiecutter.license }}" != "None":
+        if not shutil.which("lice"):
+            message = """You chose to use the {{ cookiecutter.license }} license, but I could not
+                      find the 'lice' binary in your PATH.
 
-        raise ValueError(message)
+                      You can install 'lice' with pip:
+
+                          $ pip3 install lice
+
+                      Make sure the directory where pip installs 'lice' is listed in your PATH
+                      environment variable."""
+
+            raise FileNotFoundError(textwrap.dedent(message))
 
 
 validators: List[Callable[[], None]] = [

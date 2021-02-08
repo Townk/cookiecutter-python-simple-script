@@ -7,7 +7,7 @@ from pathlib import Path
 # Get the root project directory:
 PROJECT_DIRECTORY = Path.cwd().absolute()
 PROJECT_NAME = "{{ cookiecutter.project_name }}"
-PROJECT_SLUG = "{{ cookiecutter._project_slug }}"
+PROJECT_SLUG = "{{ cookiecutter.__project_slug }}"
 
 # We need these values to generate correct license:
 LICENSE = "{{ cookiecutter.license }}"

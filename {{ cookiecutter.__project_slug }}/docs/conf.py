@@ -1,7 +1,10 @@
 """Sphinx configuration."""
-import recommonmark
 from datetime import datetime
+{% if cookiecutter.__use_markdown == "True" -%}
 from recommonmark.transform import AutoStructify
+
+import recommonmark
+{%- endif %}
 
 
 # -- Project inforrmation -------------------------------------------------
@@ -18,13 +21,13 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx_click",
     "sphinx_rtd_theme",
-    {% if cookiecutter._use_markdown -%}
+    {% if cookiecutter.__use_markdown == "True" -%}
     "recommonmark",
     "sphinx.ext.autosectionlabel",
     {%- endif %}
 ]
 source_suffix = [
-    ".{{ cookiecutter._doc_ext }}",
+    ".{{ cookiecutter.__doc_ext }}",
 ]
 master_doc = "index"
 version = "{{ cookiecutter.version }}"
@@ -40,6 +43,7 @@ todo_include_todos = False
 # a list of builtin themes.
 html_theme = "sphinx_rtd_theme"
 
+{% if cookiecutter.__use_markdown == "True" -%}
 # -- Options for manual page output ---------------------------------------
 
 # One entry per manual page. List of tuples
@@ -48,6 +52,7 @@ man_pages = [
     (master_doc, 'recommonmark', u'Recommonmark Documentation',
      [author], 1)
 ]
+{%- endif %}
 
 
 # -- Options for Texinfo output -------------------------------------------
@@ -62,6 +67,7 @@ texinfo_documents = [
 ]
 
 
+{% if cookiecutter.__use_markdown == "True" -%}
 # -- App setup hook -------------------------------------------------------
 
 def setup(app):
@@ -74,3 +80,4 @@ def setup(app):
         'enable_auto_doc_ref': True,
     }, True)
     app.add_transform(AutoStructify)
+{%- endif %}

@@ -1,0 +1,128 @@
+{%- macro heading(text, title) -%}
+{% if cookiecutter.__use_markdown == "True" -%}
+{{ "#" if title else "##" }} {{text}}
+{% else -%}
+{{text}}
+{% for _ in text %}{{ "=" if title else "-" }}{% endfor %}
+{%- endif %}
+{%- endmacro -%}
+{{ heading(cookiecutter.project_name, True) }}
+
+{% if cookiecutter.__use_markdown == "True" -%}
+[![PyPI badge]][PyPI url] [![Python Version badge]][Python Version url] [![License badge]][License url]
+
+[![Read the Docs badge]][Read the Docs url] [![Tests badge]][Tests url] [![Codecov badge]][Codecov url]
+
+[![pre-commit badge]][pre-commit url] [![Black badge]][Black url]
+
+[PyPI badge]: https://img.shields.io/pypi/v/{{cookiecutter.__project_slug}}.svg
+[PyPI url]: https://pypi.org/project/{{cookiecutter.__project_slug}}/
+[Python Version badge]: https://img.shields.io/pypi/pyversions/{{cookiecutter.__project_slug}}
+[Python Version url]: https://pypi.org/project/{{cookiecutter.__project_slug}}
+[License badge]: https://img.shields.io/pypi/l/{{cookiecutter.__project_slug}}
+[License url]: https://opensource.org/licenses/MIT
+[Read the Docs badge]: https://img.shields.io/readthedocs/{{cookiecutter.__project_slug}}/latest.svg?label=Read%20the%20Docs "Read the documentation at https://{{cookiecutter.__project_slug}}.readthedocs.io/"
+[Read the Docs url]: https://{{cookiecutter.__project_slug}}.readthedocs.io/
+[Tests badge]: https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.__project_slug}}/workflows/Tests/badge.svg
+[Tests url]: https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.__project_slug}}/actions?workflow=Tests
+[Codecov badge]: https://codecov.io/gh/{{cookiecutter.github_user}}/{{cookiecutter.__project_slug}}/branch/master/graph/badge.svg
+[Codecov url]: https://codecov.io/gh/{{cookiecutter.github_user}}/{{cookiecutter.__project_slug}}
+[pre-commit badge]: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
+[pre-commit url]: https://github.com/pre-commit/pre-commit
+[Black badge]: https://img.shields.io/badge/code%20style-black-000000.svg
+[Black url]: https://github.com/psf/black
+{% else -%}
+|PyPI| |Python Version| |License|
+
+|Read the Docs| |Tests| |Codecov|
+
+|pre-commit| |Black|
+
+.. |PyPI| image:: https://img.shields.io/pypi/v/{{cookiecutter.__project_slug}}.svg
+   :target: https://pypi.org/project/{{cookiecutter.__project_slug}}/
+   :alt: PyPI
+.. |Python Version| image:: https://img.shields.io/pypi/pyversions/{{cookiecutter.__project_slug}}
+   :target: https://pypi.org/project/{{cookiecutter.__project_slug}}
+   :alt: Python Version
+.. |License| image:: https://img.shields.io/pypi/l/{{cookiecutter.__project_slug}}
+   :target: https://opensource.org/licenses/MIT
+   :alt: License
+.. |Read the Docs| image:: https://img.shields.io/readthedocs/{{cookiecutter.__project_slug}}/latest.svg?label=Read%20the%20Docs
+   :target: https://{{cookiecutter.__project_slug}}.readthedocs.io/
+   :alt: Read the documentation at https://{{cookiecutter.__project_slug}}.readthedocs.io/
+.. |Tests| image:: https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.__project_slug}}/workflows/Tests/badge.svg
+   :target: https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.__project_slug}}/actions?workflow=Tests
+   :alt: Tests
+.. |Codecov| image:: https://codecov.io/gh/{{cookiecutter.github_user}}/{{cookiecutter.__project_slug}}/branch/master/graph/badge.svg
+   :target: https://codecov.io/gh/{{cookiecutter.github_user}}/{{cookiecutter.__project_slug}}
+   :alt: Codecov
+.. |pre-commit| image:: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
+   :target: https://github.com/pre-commit/pre-commit
+   :alt: pre-commit
+.. |Black| image:: https://img.shields.io/badge/code%20style-black-000000.svg
+   :target: https://github.com/psf/black
+   :alt: Black
+{%- endif %}
+
+
+{{ heading("Features", False) }}
+
+{% if cookiecutter.__use_markdown == "True" %}-{% else %}*{% endif %} TODO
+
+
+{{ heading("Requirements", False) }}
+
+{% if cookiecutter.__use_markdown == "True" %}-{% else %}*{% endif %} TODO
+
+
+{{ heading("Installation", False) }}
+
+You can install *{{cookiecutter.project_name}}* via pip_ from PyPI_:
+
+{% if cookiecutter.__use_markdown == "True" -%}
+```console
+{%- else -%}
+.. code:: console
+
+{%- endif %}
+   $ pip install {{cookiecutter.__project_slug}}
+{% if cookiecutter.__use_markdown == "True" -%}
+```
+{%- endif %}
+
+{{ heading("Usage", False) }}
+
+Please see the `Command-line Reference <Usage_>`_ for details.
+
+
+{{ heading("Contributing", False) }}
+
+Contributions are very welcome.
+To learn more, see the `Contributor Guide`_.
+
+
+{{ heading("License", False) }}
+
+Distributed under the terms of the MIT_ license,
+*{{cookiecutter.project_name}}* is free and open source software.
+
+
+{{ heading("Issues", False) }}
+
+If you encounter any problems,
+please `file an issue`_ along with a detailed description.
+
+
+{{ heading("Credits", False) }}
+
+This project was generated from `@cjolowicz`_'s `Hypermodern Python Cookiecutter`_ template.
+
+
+.. _@cjolowicz: https://github.com/cjolowicz
+.. _Cookiecutter: https://github.com/audreyr/cookiecutter
+.. _PyPI: https://pypi.org/
+.. _file an issue: https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.__project_slug}}/issues
+.. _pip: https://pip.pypa.io/
+.. github-only
+.. _Contributor Guide: CONTRIBUTING.rst
+.. _Usage: https://{{cookiecutter.__project_slug}}.readthedocs.io/en/latest/usage.html

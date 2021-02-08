@@ -6,6 +6,7 @@
     "email": "{{ 'author@email.com' }}",
     "github_user": "{{ 'username' }}",
     "license": [
+        "None",
         "MIT",
         "BSD-3",
         "GNU GPL v3.0",
@@ -15,8 +16,16 @@
         "reStructuredText",
         "Markdown"
     ],
-    "_project_slug": "{{ cookiecutter.project_name|lower|replace(' ', '-') }}",
-    "_package_name": "{{ cookiecutter._project_slug|replace('-', '') }}",
-    "_use_markdown": "{{ True if cookiecutter.documentation_type == 'Markdown' else False }}",
-    "_doc_ext": "{{ 'md' if cookiecutter._use_markdown else 'rst' }}"
+    "create_git_repository": [
+        "Yes",
+        "No"
+    ],
+    "publish_to_github": [
+        "Yes",
+        "No"
+    ],
+    "__project_slug": "{{ cookiecutter.project_name | slugify }}",
+    "__package_name": "{{ cookiecutter.project_name | slugify | replace('-', '') }}",
+    "__use_markdown": "{{ cookiecutter.documentation_type == 'Markdown' }}",
+    "__doc_ext": "{{ 'md' if cookiecutter.documentation_type == 'Markdown' else 'rst' }}"
 }
