@@ -13,32 +13,26 @@
 `{{ text }} <{{ url }}>`_
 {%- endif %}
 {%- endmacro -%}
-{{ heading(cookiecutter.project_name, True) }}
-
-{% if cookiecutter.__use_markdown == "True" -%}
-* [Usage](usage.md)
-* [Reeference](reference.md)
-{%- if cookiecutter.license != "None" %}
-* [License](license.md)
-{%- endif %}
-* [Changelog](changelog.md)
-{%- else %}
-.. toctree::
-   :maxdepth: 1
-
-   Usage <usage>
-   Reference <reference>
-{%- if cookiecutter.license != "None" %}
-   License <license>
-{%- endif %}
-   Changelog <changelog>
-{%- endif %}
+{{ heading("Reference", True) }}
 
 {% if cookiecutter.__use_markdown == "True" -%}
 ```eval_rst
 {%- endif %}
-.. include:: ../../README.{{ cookiecutter.__doc_ext }}
-   :start-after: {% if cookiecutter.__use_markdown == "True" %}<!-- more -->{%- else %}.. more{% endif %}
+.. contents::
+    :local:
+    :backlinks: none
+{% if cookiecutter.__use_markdown == "True" -%}
+```
+{%- endif %}
+
+
+{{ heading(cookiecutter.__package_name + ".__main__", False) }}
+
+{% if cookiecutter.__use_markdown == "True" -%}
+```eval_rst
+{%- endif %}
+.. automodule:: {{cookiecutter.__package_name}}.__main__
+   :members:
 {% if cookiecutter.__use_markdown == "True" -%}
 ```
 {%- endif -%}

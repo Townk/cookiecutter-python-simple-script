@@ -6,15 +6,13 @@
 {% for _ in text %}{{ "=" if title else "-" }}{% endfor %}
 {%- endif %}
 {%- endmacro -%}
-{{ heading("Usage", True) }}
+{{ heading("License", True) }}
 
 
 {% if cookiecutter.__use_markdown == "True" -%}
 ```eval_rst
 {%- endif %}
-.. click:: {{ cookiecutter.__package_name }}.__main__:{{ cookiecutter.__package_name }}
-   :prog: {{ cookiecutter.__project_slug }}
-   :nested: full
+.. include:: ../../LICENSE
 {% if cookiecutter.__use_markdown == "True" -%}
 ```
 {%- endif -%}

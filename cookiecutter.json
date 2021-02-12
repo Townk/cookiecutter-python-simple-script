@@ -1,10 +1,9 @@
 {
-    "project_name": "My New Project",
-    "project_description": "Short description",
-    "version": "0.1.0",
-    "author": "{{ 'Author' }}",
-    "email": "{{ 'author@email.com' }}",
-    "github_user": "{{ 'username' }}",
+    "project_name": "Awesome Project",
+    "project_description": "Simple Python script",
+    "version": "0.0.1",
+    "author": "Author",
+    "email": "author@email.com",
     "license": [
         "None",
         "MIT",
@@ -12,20 +11,56 @@
         "GNU GPL v3.0",
         "Apache Software License 2.0"
     ],
-    "documentation_type": [
+    "documentation_language": [
         "reStructuredText",
         "Markdown"
     ],
+    "docstring_style": [
+        "NumPy",
+        "Google",
+        "Sphinx"
+    ],
     "create_git_repository": [
-        "Yes",
-        "No"
+        "No",
+        "Yes"
     ],
     "publish_to_github": [
-        "Yes",
-        "No"
+        "No",
+        "Yes"
     ],
-    "__project_slug": "{{ cookiecutter.project_name | slugify }}",
-    "__package_name": "{{ cookiecutter.project_name | slugify | replace('-', '') }}",
-    "__use_markdown": "{{ cookiecutter.documentation_type == 'Markdown' }}",
-    "__doc_ext": "{{ 'md' if cookiecutter.documentation_type == 'Markdown' else 'rst' }}"
+    "github_user": "{{ 'username' }}",
+    "publish_to_PyPI": [
+        "No",
+        "Yes"
+    ],
+    "integrate_readthedocs": [
+        "No",
+        "Yes"
+    ],
+    "_new_lines": "\n",
+    "_licenses": {
+        "MIT": {
+            "lice": "mit",
+            "url": "https://opensource.org/licenses/MIT"
+        },
+        "BSD-3": {
+            "lice": "bsd3",
+            "url": "https://opensource.org/licenses/BSD-3-Clause"
+        },
+        "GNU GPL v3.0": {
+            "lice": "gpl3",
+            "url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+        },
+        "Apache Software License 2.0": {
+            "lice": "apache",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0"
+        }
+    },
+    "__project_slug": "{{ cookiecutter.project_name|slugify }}",
+    "__package_name": "{{ cookiecutter.project_name|slugify|replace('-', '') }}",
+    "__use_markdown": "{{ cookiecutter.documentation_language == 'Markdown' }}",
+    "__use_github": "{{ cookiecutter.create_git_repository == 'Yes' and cookiecutter.publish_to_github == 'Yes' }}",
+    "__use_readthedocs": "{{ cookiecutter.create_git_repository == 'Yes' and cookiecutter.publish_to_github == 'Yes' and cookiecutter.integrate_readthedocs == 'Yes' }}",
+    "__use_pypi": "{{ cookiecutter.create_git_repository == 'Yes' and cookiecutter.publish_to_github == 'Yes' and cookiecutter.publish_to_PyPI == 'Yes' }}",
+    "__doc_ext": "{{ 'md' if cookiecutter.documentation_language == 'Markdown' else 'rst' }}"
 }
