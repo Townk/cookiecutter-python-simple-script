@@ -1,5 +1,5 @@
 {%- macro heading(text, title) -%}
-{% if cookiecutter.__use_markdown == "True" -%}
+{% if cookiecutter.__use_markdown == "y" -%}
 {{ "#" if title else "##" }} {{ text }}
 {%- else -%}
 {{ text }}
@@ -15,6 +15,6 @@
 .. click:: {{ cookiecutter.__package_name }}.__main__:{{ cookiecutter.__package_name }}
    :prog: {{ cookiecutter.__project_slug }}
    :nested: full
-{% if cookiecutter.__use_markdown == "True" -%}
+{% if cookiecutter.__use_markdown == "y" -%}
 ```
 {%- endif -%}

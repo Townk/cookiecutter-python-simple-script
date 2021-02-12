@@ -1,5 +1,5 @@
 {%- macro heading(text, title) -%}
-{% if cookiecutter.__use_markdown == "True" -%}
+{% if cookiecutter.__use_markdown == "y" -%}
 {{ "#" if title else "##" }} {{ text }}
 {%- else -%}
 {{ text }}
@@ -7,7 +7,7 @@
 {%- endif %}
 {%- endmacro -%}
 {%- macro link(text, url) -%}
-{% if cookiecutter.__use_markdown == "True" -%}
+{% if cookiecutter.__use_markdown == "y" -%}
 [{{ text }}]({{ url }})
 {%- else -%}
 `{{ text }} <{{ url }}>`_
@@ -15,10 +15,10 @@
 {%- endmacro -%}
 {{ heading(cookiecutter.project_name, True) }}
 
-{% if cookiecutter.__use_markdown == "True" -%}
-{% if cookiecutter.publish_to_PyPI == "Yes" %}[![PyPI badge]][PyPI url] [![Python Version badge]][Python Version url] {% endif %}{% if cookiecutter.license != "None" %}[![License badge]][License url] {% endif %}{% if cookiecutter.integrate_readthedocs == "Yes" %}[![Read the Docs badge]][Read the Docs url] {% endif %}{% if cookiecutter.publish_to_github == "Yes" %}[![Tests badge]][Tests url] {% endif %}[![Codecov badge]][Codecov url] [![pre-commit badge]][pre-commit url] [![Black badge]][Black url]
+{% if cookiecutter.__use_markdown == "y" -%}
+{% if cookiecutter.publish_to_PyPI.lower() == "y" %}[![PyPI badge]][PyPI url] [![Python Version badge]][Python Version url] {% endif %}{% if cookiecutter.license != "None" %}[![License badge]][License url] {% endif %}{% if cookiecutter.integrate_readthedocs.lower() == "y" %}[![Read the Docs badge]][Read the Docs url] {% endif %}{% if cookiecutter.publish_to_github.lower() == "y" %}[![Tests badge]][Tests url] {% endif %}[![Codecov badge]][Codecov url] [![pre-commit badge]][pre-commit url] [![Black badge]][Black url]
 
-{% if cookiecutter.publish_to_PyPI == "Yes" -%}
+{% if cookiecutter.publish_to_PyPI.lower() == "y" -%}
 [PyPI badge]: https://img.shields.io/pypi/v/{{ cookiecutter.__project_slug }}.svg
 [PyPI url]: https://pypi.org/project/{{ cookiecutter.__project_slug }}/
 [Python Version badge]: https://img.shields.io/pypi/pyversions/{{ cookiecutter.__project_slug }}
@@ -28,11 +28,11 @@
 [License badge]: https://img.shields.io/pypi/l/{{ cookiecutter.__project_slug }}
 [License url]: {{ cookiecutter._licenses[cookiecutter.license].url }}
 {% endif -%}
-{%- if cookiecutter.integrate_readthedocs == "Yes" -%}
+{%- if cookiecutter.integrate_readthedocs.lower() == "y" -%}
 [Read the Docs badge]: https://img.shields.io/readthedocs/{{ cookiecutter.__project_slug }}/latest.svg?label=Read%20the%20Docs "Read the documentation at https://{{ cookiecutter.__project_slug }}.readthedocs.io/"
 [Read the Docs url]: https://{{ cookiecutter.__project_slug }}.readthedocs.io/
 {% endif -%}
-{%- if cookiecutter.publish_to_github == "Yes" -%}
+{%- if cookiecutter.publish_to_github.lower() == "y" -%}
 [Tests badge]: https://github.com/{{ cookiecutter.github_user }}/{{ cookiecutter.__project_slug }}/workflows/Tests/badge.svg
 [Tests url]: https://github.com/{{ cookiecutter.github_user }}/{{ cookiecutter.__project_slug }}/actions?workflow=Tests
 {% endif -%}
@@ -43,9 +43,9 @@
 [Black badge]: https://img.shields.io/badge/code%20style-black-000000.svg
 [Black url]: https://github.com/psf/black
 {%- else -%}
-{% if cookiecutter.publish_to_PyPI == "Yes" %}|PyPI| |Python Version| {% endif %}{% if cookiecutter.license != "None" %}|License| {% endif %}{% if cookiecutter.integrate_readthedocs == "Yes" %}|Read the Docs| {% endif %}{% if cookiecutter.publish_to_github == "Yes" %}|Tests| {% endif %}|Codecov| |pre-commit| |Black|
+{% if cookiecutter.publish_to_PyPI.lower() == "y" %}|PyPI| |Python Version| {% endif %}{% if cookiecutter.license != "None" %}|License| {% endif %}{% if cookiecutter.integrate_readthedocs.lower() == "y" %}|Read the Docs| {% endif %}{% if cookiecutter.publish_to_github.lower() == "y" %}|Tests| {% endif %}|Codecov| |pre-commit| |Black|
 
-{% if cookiecutter.publish_to_PyPI == "Yes" -%}
+{% if cookiecutter.publish_to_PyPI.lower() == "y" -%}
 .. |PyPI| image:: https://img.shields.io/pypi/v/{{ cookiecutter.__project_slug }}.svg
    :target: https://pypi.org/project/{{ cookiecutter.__project_slug }}/
    :alt: PyPI
@@ -58,12 +58,12 @@
    :target: {{ cookiecutter._licenses[cookiecutter.license].url }}
    :alt: License
 {% endif -%}
-{%- if cookiecutter.integrate_readthedocs == "Yes" -%}
+{%- if cookiecutter.integrate_readthedocs.lower() == "y" -%}
 .. |Read the Docs| image:: https://img.shields.io/readthedocs/{{ cookiecutter.__project_slug }}/latest.svg?label=Read%20the%20Docs
    :target: https://{{ cookiecutter.__project_slug }}.readthedocs.io/
    :alt: Read the documentation at https://{{ cookiecutter.__project_slug }}.readthedocs.io/
 {% endif -%}
-{%- if cookiecutter.publish_to_github == "Yes" -%}
+{%- if cookiecutter.publish_to_github.lower() == "y" -%}
 .. |Tests| image:: https://github.com/{{ cookiecutter.github_user }}/{{ cookiecutter.__project_slug }}/workflows/Tests/badge.svg
    :target: https://github.com/{{ cookiecutter.github_user }}/{{ cookiecutter.__project_slug }}/actions?workflow=Tests
    :alt: Tests
@@ -79,31 +79,31 @@
    :alt: Black
 {%- endif %}
 
-{% if cookiecutter.__use_markdown == "True" %}<!-- more -->{% else %}.. more{% endif %}
+{% if cookiecutter.__use_markdown == "y" %}<!-- more -->{% else %}.. more{% endif %}
 
 {{ heading("Features", False) }}
 
-{% if cookiecutter.__use_markdown == "True" %}-{% else %}*{% endif %} TODO: List all features this script offers
+{% if cookiecutter.__use_markdown == "y" %}-{% else %}*{% endif %} TODO: List all features this script offers
 
 
 {{ heading("Requirements", False) }}
 
-{% if cookiecutter.__use_markdown == "True" %}-{% else %}*{% endif %} TODO: List all requirements for this script
+{% if cookiecutter.__use_markdown == "y" %}-{% else %}*{% endif %} TODO: List all requirements for this script
 
 
-{% if cookiecutter.publish_to_PyPI == "Yes" -%}
+{% if cookiecutter.__use_pypi == "y" -%}
 {{ heading("Installation", False) }}
 
 You can install *{{ cookiecutter.project_name }}* via {{ link("pip", "https://pip.pypa.io") }} from {{ link("PyPI", "https://pypi.org/project/" + cookiecutter.__project_slug + "/") }}:
 
-{% if cookiecutter.__use_markdown == "True" -%}
+{% if cookiecutter.__use_markdown == "y" -%}
 ```console
 {%- else -%}
 .. code:: console
 
 {%- endif %}
    $ pip install {{ cookiecutter.__project_slug }}
-{% if cookiecutter.__use_markdown == "True" -%}
+{% if cookiecutter.__use_markdown == "y" -%}
 ```
 {%- endif %}
 
@@ -118,7 +118,7 @@ Distributed under the terms of the
 
 
 {% endif -%}
-{%- if cookiecutter.publish_to_github == "Yes" -%}
+{%- if cookiecutter.publish_to_github.lower() == "y" -%}
 {{ heading("Issues", False) }}
 
 If you encounter any problems, please
@@ -127,7 +127,7 @@ along with a detailed description.
 
 
 {% endif -%}
-{%- if cookiecutter.integrate_readthedocs == "Yes" -%}
+{%- if cookiecutter.integrate_readthedocs.lower() == "y" -%}
 {{ heading("Documentation", False) }}
 
 You can acces the {{ cookiecutter.project_name }}'s documentation at its

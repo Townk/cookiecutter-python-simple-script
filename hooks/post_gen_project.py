@@ -35,12 +35,12 @@ else:
     TRIM_CMD = "sed -i 's/[ \t]*$//' \"{0}\""
 
 # Git and GitHub integration
-CREATE_GIT_REPO = "{{ cookiecutter.create_git_repository }}" == "Yes"
-PUBLISH_TO_GITHUB = "{{ cookiecutter.__use_github }}" == "True"
+CREATE_GIT_REPO = "{{ cookiecutter.__use_git }}" == "y"
+PUBLISH_TO_GITHUB = "{{ cookiecutter.__use_github }}" == "y"
 GITHUB_USER = "{{ cookiecutter.github_user }}"
 
 # Read the Docs integration
-INTEGRATE_READTHEDOCS = "{{ cookiecutter.__use_readthedocs }}" == "True"
+INTEGRATE_READTHEDOCS = "{{ cookiecutter.__use_readthedocs }}" == "y"
 
 
 def hook_generate_license() -> None:

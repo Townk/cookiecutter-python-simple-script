@@ -21,8 +21,8 @@ MODULE_REGEX = r"^[a-z][a-z0-9\-\_]+[a-z0-9]$"
 MODULE_NAME = "{{ cookiecutter.__project_slug }}"
 
 # Git and GitHub integration
-CREATE_GIT_REPO = "{{ cookiecutter.create_git_repository }}" == "Yes"
-PUBLISH_TO_GITHUB = "{{ cookiecutter.publish_to_github }}" == "Yes"
+CREATE_GIT_REPO = "{{ cookiecutter.__use_git }}" == "y"
+PUBLISH_TO_GITHUB = "{{ cookiecutter.__use_github }}" == "y"
 
 # Licenses values
 HAS_LICENSE_DEFINED = "{{ cookiecutter.license }}" != "None"
@@ -147,14 +147,6 @@ def validate_poetry() -> None:
 validators: List[Callable[[], None]] = [
     obj for name, obj in inspect.getmembers(sys.modules[__name__])
     if (inspect.isfunction(obj) and name.startswith("validate_"))]
-
-# [
-#     validate_project_name,
-#     validate_git,
-#     validate_lice,
-#     validate_github_cli,
-#     validate_poetry,
-# ]
 
 for validator in validators:
     try:

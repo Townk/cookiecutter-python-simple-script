@@ -20,23 +20,11 @@
         "Google",
         "Sphinx"
     ],
-    "create_git_repository": [
-        "No",
-        "Yes"
-    ],
-    "publish_to_github": [
-        "No",
-        "Yes"
-    ],
+    "create_git_repository": "n",
+    "publish_to_github": "n",
     "github_user": "{{ 'username' }}",
-    "publish_to_PyPI": [
-        "No",
-        "Yes"
-    ],
-    "integrate_readthedocs": [
-        "No",
-        "Yes"
-    ],
+    "publish_to_PyPI": "n",
+    "integrate_readthedocs": "n",
     "_new_lines": "\n",
     "_licenses": {
         "MIT": {
@@ -57,10 +45,11 @@
         }
     },
     "__project_slug": "{{ cookiecutter.project_name|slugify }}",
-    "__package_name": "{{ cookiecutter.project_name|slugify|replace('-', '') }}",
-    "__use_markdown": "{{ cookiecutter.documentation_language == 'Markdown' }}",
-    "__use_github": "{{ cookiecutter.create_git_repository == 'Yes' and cookiecutter.publish_to_github == 'Yes' }}",
-    "__use_readthedocs": "{{ cookiecutter.create_git_repository == 'Yes' and cookiecutter.publish_to_github == 'Yes' and cookiecutter.integrate_readthedocs == 'Yes' }}",
-    "__use_pypi": "{{ cookiecutter.create_git_repository == 'Yes' and cookiecutter.publish_to_github == 'Yes' and cookiecutter.publish_to_PyPI == 'Yes' }}",
-    "__doc_ext": "{{ 'md' if cookiecutter.documentation_language == 'Markdown' else 'rst' }}"
+    "__package_name": "{{ cookiecutter.__project_slug|replace('-', '') }}",
+    "__use_markdown": "{{ 'y' if cookiecutter.documentation_language == 'Markdown' else 'n' }}",
+    "__use_git": "{{ cookiecutter.create_git_repository.lower() }}",
+    "__use_github": "{{ 'y' if cookiecutter.__use_git == 'y' and cookiecutter.publish_to_github.lower() == 'y' else 'n' }}",
+    "__use_readthedocs": "{{ 'y' if cookiecutter.__use_github== 'y' and cookiecutter.integrate_readthedocs.lower() == 'y' else 'n' }}",
+    "__use_pypi": "{{ 'y' if cookiecutter.__use_github == 'y' and cookiecutter.publish_to_PyPI.lower() == 'y' else 'n' }}",
+    "__doc_ext": "{{ 'md' if cookiecutter.__use_markdown == 'y' else 'rst' }}"
 }

@@ -1,5 +1,5 @@
 {%- macro heading(text, title) -%}
-{% if cookiecutter.__use_markdown == "True" -%}
+{% if cookiecutter.__use_markdown == "y" -%}
 {{ "#" if title else "##" }} {{ text }}
 {%- else -%}
 {{ text }}
@@ -7,7 +7,7 @@
 {%- endif %}
 {%- endmacro -%}
 {%- macro link(text, url) -%}
-{% if cookiecutter.__use_markdown == "True" -%}
+{% if cookiecutter.__use_markdown == "y" -%}
 [{{ text }}]({{ url }})
 {%- else -%}
 `{{ text }} <{{ url }}>`_
@@ -15,7 +15,7 @@
 {%- endmacro -%}
 {{ heading("Changelog", True) }}
 
-{% if cookiecutter.publish_to_github == "Yes" -%}
+{% if cookiecutter.publish_to_github.lower() == "y" -%}
 A detailed change log associated with each release is located at
 {{ link("this project's release page", "https://github.com/" + cookiecutter.github_user + "/" + cookiecutter.__project_slug + "/releases") }}
 on GitHub.
@@ -24,7 +24,7 @@ on GitHub.
 {% if cookiecutter.__use_markdown == "True" -%}
 ```eval_rst
 {%- endif %}
-.. include:: ../../CHANGELOG.{{ cookiecutter.__doc_ext }}
-{% if cookiecutter.__use_markdown == "True" -%}
+.. include:: ../CHANGELOG.{{ cookiecutter.__doc_ext }}
+{% if cookiecutter.__use_markdown == "y" -%}
 ```
 {%- endif -%}
