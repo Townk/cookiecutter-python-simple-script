@@ -1,0 +1,167 @@
+{# -*- mode: jinja2; -*- #}
+{%- import '__macros.jinja' as cc with context -%}
+{{ cc.heading(cookiecutter.project.name) }}
+
+{% if cookiecutter.docs.use_markdown -%}
+
+{% if cookiecutter.services.pypi.enabled %}[![PyPI badge]][PyPI url] {% endif -%}
+{% if cookiecutter.services.pyversion.enabled %}[![Python Version badge]][Python Version url] {% endif -%}
+{% if cookiecutter.services.license.enabled %}[![License badge]][License url] {% endif -%}
+{% if cookiecutter.services.rtd.enabled %}[![Read the Docs badge]][Read the Docs url] {% endif -%}
+{% if cookiecutter.services.github.enabled %}[![Tests badge]][Tests url] {% endif -%}
+{% if cookiecutter.services.codecov.enabled %}[![Codecov badge]][Codecov url] {% endif -%}
+{% if cookiecutter.repository.enabled %}[![pre-commit badge]][pre-commit url] {% endif -%}
+[![Black badge]][Black url]
+
+{% if cookiecutter.services.pypi.enabled -%}
+[PyPI badge]: {{ cookiecutter.services.pypi.project_badge }}
+[PyPI url]: {{ cookiecutter.services.pypi.project_url }}
+{%- endif %}
+
+{% if cookiecutter.services.pyversion.enabled -%}
+[Python Version badge]: {{ cookiecutter.services.pyversion.project_badge }}
+[Python Version url]: {{ cookiecutter.services.pyversion.project_url }}
+{%- endif %}
+
+{%- if cookiecutter.services.license.enabled -%}
+[License badge]: {{ cookiecutter.services.license.project_badge }}
+[License url]: {{ cookiecutter.services.license.project_url }}
+{%- endif %}
+
+{%- if cookiecutter.services.rtd.enabled %}
+[Read the Docs badge]: {{ cookiecutter.services.rtd.project_badge }}
+[Read the Docs url]: {{ cookiecutter.services.rtd.project_url }}
+{%- endif %}
+
+{%- if cookiecutter.services.github.enabled %}
+[Tests badge]: {{ cookiecutter.services.github.project_badge }}
+[Tests url]: {{ cookiecutter.services.github.project_url }}
+{%- endif %}
+
+{%- if cookiecutter.services.codecov.enabled %}
+[Codecov badge]: {{ cookiecutter.services.codecov.project_badge }}
+[Codecov url]: {{ cookiecutter.services.codecov.project_url }}
+{%- endif %}
+
+{%- if cookiecutter.repository.enabled %}
+[pre-commit badge]: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
+[pre-commit url]: https://github.com/pre-commit/pre-commit
+{%- endif %}
+[Black badge]: https://img.shields.io/badge/code%20style-black-000000.svg
+[Black url]: https://github.com/psf/black
+
+{%- else -%}
+
+{% if cookiecutter.services.pypi.enabled %}|PyPI| {% endif -%}
+{% if cookiecutter.services.pyversion.enabled %}|Python Version| {% endif -%}
+{% if cookiecutter.services.license.enabled %}|License| {% endif -%}
+{% if cookiecutter.services.rtd.enabled %}|Read the Docs| {% endif -%}
+{% if cookiecutter.services.github.enabled %}|Tests badge| {% endif -%}
+{% if cookiecutter.services.codecov.enabled %}|Codecov| {% endif -%}
+{% if cookiecutter.repository.enabled %}|pre-commit| {% endif -%}
+|Black|
+
+{% if cookiecutter.services.pypi.enabled -%}
+.. |PyPI| image:: {{ cookiecutter.services.pypi.project_badge }}
+   :target: {{ cookiecutter.services.pypi.project_url }}
+   :alt: PyPI
+{%- endif %}
+
+{% if cookiecutter.services.pyversion.enabled -%}
+.. |Python Version| image:: {{ cookiecutter.services.codecov.project_badge }}
+   :target: {{ cookiecutter.services.codecov.project_url }}
+   :alt: Python Version
+{% endif -%}
+
+{%- if cookiecutter.services.license.enabled -%}
+.. |License| image:: {{ cookiecutter.services.codecov.project_badge }}
+   :target: {{ cookiecutter.services.codecov.project_url }}
+   :alt: License
+{% endif -%}
+
+{%- if cookiecutter.services.rtd.enabled %}
+.. |Read the Docs| image:: {{ cookiecutter.services.codecov.project_badge }}
+   :target: {{ cookiecutter.services.codecov.project_url }}
+   :alt: Read the documentation at https://{{ cookiecutter.project.slug }}.readthedocs.io/
+{% endif -%}
+
+{%- if cookiecutter.services.github.enabled %}
+.. |Tests| image:: {{ cookiecutter.services.codecov.project_badge }}
+   :target: {{ cookiecutter.services.codecov.project_url }}
+   :alt: Tests
+{% endif -%}
+
+{%- if cookiecutter.services.codecov.enabled %}
+.. |Codecov| image:: {{ cookiecutter.services.codecov.project_badge }}
+   :target: {{ cookiecutter.services.codecov.project_url }}
+   :alt: Codecov
+{% endif -%}
+
+{%- if cookiecutter.repository.enabled %}
+.. |pre-commit| image:: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
+   :target: https://github.com/pre-commit/pre-commit
+   :alt: pre-commit
+{%- endif %}
+.. |Black| image:: https://img.shields.io/badge/code%20style-black-000000.svg 
+   :target: https://github.com/psf/black
+   :alt: Black
+
+{%- endif %}
+
+{{ cc.mark_break() }}
+
+{{ cc.heading("Features", heading_level=2) }}
+
+{% call cc.directive("todo") %}
+List all features this script offers
+{% endcall %}
+
+{{ cc.heading("Requirements", heading_level=2) }}
+
+{% call cc.directive("todo") %}
+List all requirements for this script
+{% endcall %}
+
+{% if cookiecutter.services.pypi.enabled %}
+{{ cc.heading("Installation", heading_level=2) }}
+
+You can install **{{ cookiecutter.project.name }}** via
+{{ cc.link("pip", "https://pip.pypa.io") }} from
+{{ cc.link("PyPI", "https://pypi.org/project/" ~ cookiecutter.project.slug ~ "/") }}:
+
+{% call cc.directive("prompt", "bash $ auto") %}
+$ pip install {{ cookiecutter.project.slug }}
+{% endcall %}
+
+{%- endif %}
+{%- if cookiecutter.license %}
+
+
+{{ cc.heading("License", heading_level=2) }}
+
+Distributed under the terms of the
+{{ cc.link(cookiecutter.license.name, cookiecutter.license.url) }} license,
+**{{ cookiecutter.project.name }}** is free and open source software.
+{%- endif %}
+{%- if cookiecutter.services.github.enabled %}
+
+
+{{ cc.heading("Issues", heading_level=2) }}
+
+If you encounter any problems, please
+{{ cc.link("file an issue", cookiecutter.services.github.project_url ~ "/issues") }} along with
+a detailed description.
+{%- endif %}
+{%- if cookiecutter.services.rtd.enabled %}
+
+{{ cc.heading("Documentation", heading_level=2) }}
+
+You can access the {{ cookiecutter.project.name }}'s documentation at its
+{{ cc.link("Read the Docs", cookiecutter.services.rtd.project_url) }} website.
+{%- endif %}
+
+{{ cc.heading("Credits", heading_level=2) }}
+
+This project was generated from {{ cc.link("Thiago Alves'", "https://github.com/Townk") }}
+{{ cc.link("Python Simple Script", "https://github.com/Townk/cookiecutter-python-simple-script") }}
+Cookiecutter's template.

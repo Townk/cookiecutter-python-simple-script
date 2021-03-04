@@ -1,0 +1,11 @@
+{# -*- mode: jinja2; -*- #}
+{%- import '__macros.jinja' as cc with context -%}
+{{ cc.meta("hide-toc") }}
+
+{{ cc.heading("Usage") }}
+
+{% call cc.ensure_rst() %}
+.. click:: {{ cookiecutter.project.package ~ ".cli:hello" }}
+    :prog: {{ cookiecutter.project.slug ~ " hello" }}
+    :nested: full
+{% endcall %}

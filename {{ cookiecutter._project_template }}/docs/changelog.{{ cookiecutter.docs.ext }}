@@ -1,0 +1,11 @@
+{# -*- mode: jinja2; -*- #}
+{%- import '__macros.jinja' as cc with context -%}
+{{ cc.heading(cookiecutter.project.name + "'s Change History") }}
+
+{% if cookiecutter.services.github.enabled -%}
+A detailed change log associated with each release is located at
+{{ cc.link("this project's release page", cookiecutter.services.github.project_url ~ "/releases") }}
+on GitHub.
+
+{% endif -%}
+{{ cc.directive_fn("include", **{ "arguments": "../CHANGELOG." ~ cookiecutter.docs.ext, "start-after": cc.mark_break() }) }}

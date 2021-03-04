@@ -1,0 +1,32 @@
+{# -*- mode: jinja2; -*- #}
+{%- import '__macros.jinja' as cc with context -%}
+{{ cc.heading(cookiecutter.project.name) }}
+
+{% call cc.directive("toctree", "hidden") %}
+Introduction <intro>
+{%- if cookiecutter.repository.enabled %}
+Installation <install>
+{%- endif %}
+Usage <usage/index>
+{% endcall %}
+
+{% call cc.directive("toctree", "hidden", caption="Development") %}
+Reference <reference/index>
+{%- if cookiecutter.license %}
+License <license>
+{%- endif %}
+Changelog <changelog>
+{% endcall %}
+{%- if cookiecutter.services.github.enabled or cookiecutter.services.pypi.enabled %}
+
+{% call cc.directive("toctree", "hidden", caption="Links") %}
+{%- if cookiecutter.services.github.enabled %}
+GitHub Page <{{ cookiecutter.services.github.project_url }}>
+{%- endif %}
+{%- if cookiecutter.services.pypi.enabled %}
+PyPI Page <{{ cookiecutter.services.pypi.project_url }}>
+{%- endif %}
+{% endcall %}
+{%- endif %}
+
+{{ cc.directive_fn("include", **{ "arguments": "../README." ~ cookiecutter.docs.ext, "start-after": cc.mark_break() }) }}

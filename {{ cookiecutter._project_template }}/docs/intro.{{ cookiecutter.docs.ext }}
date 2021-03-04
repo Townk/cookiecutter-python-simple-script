@@ -1,0 +1,13 @@
+{# -*- mode: jinja2; -*- #}
+{%- import '__macros.jinja' as cc with context -%}
+{{ cc.meta("hide-toc") }}
+
+{{ cc.heading("Introduction") }}
+{% call cc.admonition("todo") %}
+Write the introductory text for your application here. Make sure you mention
+what is the problem you're trying to solve, and how your application solves
+it.
+
+Add a reason for users to choose your application instead of an alternative,
+and also mention what alternatives exist in the market.
+{% endcall %}

@@ -23,13 +23,13 @@ to see or complete when the template engine starts.
 
 You can get the Cookiecutter top of the tree with pip:
 
-``` shell
+```shell
 $ pip3 install 'git+git://github.com/cookiecutter/cookiecutter.git'
 ```
 
 Once you have the latest Cookiecutter, you can use my template with the following command:
 
-``` shell
+```shell
 $ cookiecutter gh:Townk/cookiecutter-python-simple-script
 ```
 

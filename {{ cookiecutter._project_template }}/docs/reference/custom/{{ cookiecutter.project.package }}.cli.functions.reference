@@ -1,0 +1,2 @@
+.. autofunction:: {{ cookiecutter.project.package }}.cli::{{ cookiecutter.project.package }}()
+.. autofunction:: {{ cookiecutter.project.package }}.cli::hello(name, formal)

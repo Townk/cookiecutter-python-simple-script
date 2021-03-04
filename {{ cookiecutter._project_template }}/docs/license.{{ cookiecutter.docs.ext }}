@@ -1,0 +1,7 @@
+{# -*- mode: jinja2; -*- #}
+{%- import '__macros.jinja' as cc with context -%}
+{{ cc.meta("hide-toc") }}
+
+{{ cc.heading(cookiecutter.project.name + "'s License") }}
+
+{{ cc.directive_fn("literalinclude", arguments="../LICENSE") }}

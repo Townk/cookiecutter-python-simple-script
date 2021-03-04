@@ -1,0 +1,19 @@
+{#- -*- mode: jinja2; -*- -#}
+default-values = "^0.4.1"
+linkify-it-py = "^1.0.1"
+{%- if cookiecutter.docs.use_markdown %}
+myst-parser = "^0.13.3"
+{%- endif %}
+sphinx = "^3.5.1"
+sphinx-autobuild = "^2020.9.1"
+sphinx-autodoc-typehints = "^1.11.1"
+sphinx-click = "^2.5.0"
+sphinx-copybutton = "^0.3.1"
+{%- if cookiecutter.repository.enabled %}
+sphinx-git = "^11.0.0"
+{%- endif %}
+sphinx-inline-tabs = "^2020.10.19b4"
+sphinx-prompt = "^1.3.0"
+sphinxcontrib-plantuml = "^0.19"
+Pygments = "^2.7.4"
+{{ cookiecutter.docs.theme.package }} = "^{{ cookiecutter.docs.theme.version }}"

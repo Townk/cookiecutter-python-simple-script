@@ -1,0 +1,25 @@
+{# -*- mode: jinja2; -*- #}
+{%- import '__macros.jinja' as cc with context -%}
+{{ cc.meta("hide-toc") }}
+
+{{ cc.heading(cookiecutter.project.name + "'s API References") }}
+
+{% call cc.admonition("todo") %}
+Describe your project from the perspective of a library in this section. What are you offering
+to your users when they use the API of this project?
+{% endcall %}
+
+{{ cc.heading("Packages", heading_level=2) }}
+
+{% call cc.ensure_rst() %}
+.. autosummary::
+    :toctree: ../_generated
+    :recursive:
+
+    {{ cookiecutter.project.package }} </_generated/{{ cookiecutter.project.package }}>
+{% endcall %}
+
+{% call cc.admonition("note") %}
+You still have to manually add to the ``autosummary`` directive any root level module you add
+to the project.
+{% endcall %}

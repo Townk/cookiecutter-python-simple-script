@@ -1,0 +1,139 @@
+{#- -*- code: utf-8; mode: jinja2; -*- -#}
+{#-
+This file contains all the Jinja Macros necessary to support all 3
+docstring styles, plus markdown and restructured text. You should use the
+ macros in this file instead of documenting the template code yourself.
+-#}
+{%- set use_google_style = cookiecutter.docs.docstring_style == "Google" -%}
+{%- set use_numpy_style  = cookiecutter.docs.docstring_style == "NumPy" -%}
+{%- set use_sphinx_style = cookiecutter.docs.docstring_style == "Sphinx" -%}
+{%- set use_md = cookiecutter.docs.use_markdown -%}
+{%- set use_rst = not use_md -%}
+{%- set indent_size = 4 -%}
+{%- set known_admonitions = [
+    "admonition",
+    "attention",
+    "caution",
+    "danger",
+    "error",
+    "hint",
+    "important",
+    "note",
+    "seealso",
+    "tip",
+    "todo",
+    "warning"
+] -%}
+{%- set args_sections = [
+    "Args",
+    "Parameters",
+    "Attributes",
+    "Return",
+    "Returns",
+] -%}
+{%- set rst_headings = [
+    "=",
+    "=",
+    "-",
+    "~",
+    "^",
+    "\"",
+] -%}
+
+{%- if  not cookiecutter.get("_date") %}{% include '__context_update.jinja' %}{% endif -%}
+
+
+{#- -------------------------------------------------------------------------------------------- -#}
+{#-                                   Text blocks / paragraphs                                   -#}
+{#- -------------------------------------------------------------------------------------------- -#}
+{%- macro reflow_text_fn(text, text_width=72, first_width=0, first=true) %}{% set folded_text = text.lstrip().replace("\n\n", "↩️").splitlines()|map('trim')|join(' ') %}{% set first_line = (text.lstrip() | wordwrap([first_width, 0]|max or text_width)).splitlines()|first %}{% set folded_text = folded_text[first_line|length:].strip().replace("↩️", "\n\n") %}{% if folded_text.startswith("\n\n") %}{% set folded_text = folded_text[1:] %}{% endif %}{{ first_line }}{% if folded_text %}
+{{ folded_text | wordwrap(text_width) }}{% endif %}{% endmacro -%}
+
+{%- macro reflow_text(text_width=72, first_width=0, first=true) %}{{ reflow_text_fn(caller(), text_width=text_width, first_width=first_width, first=first) }}{% endmacro -%}
+
+{%- macro indent_block_fn(indent_level, text_width=0, first_width=0, first=true, content="") %}{% set margin_width = content.replace("\n", "").index(content.lstrip()[:5]) %}{% if text_width > 0 %}{{ reflow_text_fn(content, text_width=text_width, first_width=first_width, first=first) | indent(margin_width + indent_size * indent_level, first=first) }}{% else %}{{ content | trim | indent(margin_width + indent_size * indent_level, first=first) }}{% endif %}{% endmacro -%}
+
+{%- macro indent_block(indent_level, text_width=0, first_width=0, first=true) %}{{ indent_block_fn(indent_level, text_width=text_width, first_width=first_width, first=first, content=caller()) }}{% endmacro -%}
+
+{#- -------------------------------------------------------------------------------------------- -#}
+{#-                                       Text decoration                                        -#}
+{#- -------------------------------------------------------------------------------------------- -#}
+{%- macro underline(text, character="=") %}{{ text }}
+{{ (character * (text | length)) }}{% endmacro -%}
+
+{%- macro overline(text, character="=") %}{{ (character * (text | length)) }}
+{{ text }}{% endmacro -%}
+
+{%- macro underoverline(text, character="=") %}{{ underline(overline(text, character), character) }}{% endmacro -%}
+
+
+{#- -------------------------------------------------------------------------------------------- -#}
+{#-                                        Text elements                                         -#}
+{#- -------------------------------------------------------------------------------------------- -#}
+{%- macro meta_not_in(blocked_values=[]) %}{% if use_md %}---
+{% endif %}{% for key, value in kwargs.items() if key not in blocked_values %}{% if use_rst %}:{% endif %}{{ key }}: {{ value }}{% if not loop.last or varargs %}
+{% endif %}{% endfor %}{% for option in varargs if option not in blocked_values %}{% if use_rst %}:{% endif %}{{ option }}:{% if not loop.last %}
+{% endif %}{% endfor %}{% if use_md %}
+---{% endif %}{% endmacro -%}
+
+{%- macro meta() %}{{ meta_not_in([], *varargs, **kwargs) }}{% endmacro -%}
+
+{%- macro heading(text, heading_level=1, start_column=0) %}{% if use_md %}{{ "#" * heading_level }} {{ text }}{% else %}{% if heading_level == 0 %}{{ underoverline(text, rst_headings[heading_level]) | indent(start_column) }}
+{% endif %}{{ underline(text, rst_headings[heading_level]) | indent(start_column) }}{% endif %}{% endmacro -%}
+
+{%- macro link(text, url) %}{% if use_md %}[{{ text }}]({{ url }}){% else %}`{{ text }} <{{ url }}>`_{% endif %}{% endmacro -%}
+
+{%- macro link_ref(id) %}{% if use_md %}[{% else %}`{% endif %}{{ id }}{%- if use_md %}]{% else %}`_{% endif %}{% endmacro -%}
+
+{% macro link_definition(id, target) %}{% if use_md %}[{% else %}.. _{% endif %}{{ id }}{% if use_md %}]: {{ target }}{% else %}:
+{{ target | indent(indent_size, first=true) }}{% endif %}{% endmacro -%}
+
+{%- macro mark(name) %}{% if use_md %}+++{% else %}..{% endif %} {{ name }}{% endmacro -%}
+
+{%- macro mark_break() %}{% if use_md %}+++{% else %}..{% endif %} more{% endmacro -%}
+
+{% macro role(content, target="", name="") %}{% if name.strip() %}{% if use_md %}{{ "{" ~ name|trim ~ "}" }}{% else %}:{{ name|trim }}:{% endif %}{% endif %}`{{ content }}{% if target %} <{{ target }}>{% endif %}`{% endmacro -%}
+
+{% macro role_type(fqn_type, kind="") %}{{ role(fqn_type|upper if "." not in fqn_type else fqn_type.split(".")|last|upper, target=fqn_type, name=kind) }}{% endmacro -%}
+
+{% macro role_ref(content, target="") %}{{ role(content, target, "ref") }}{% endmacro -%}
+
+{% macro tab_start(title, new_set=false, nesting_count=0) %}{% if use_md %}{{ "`" * (3 + nesting_count) ~ "{tab} " ~ title }}{% else %}.. tab:: {{ title }}
+{% endif %}{% if new_set %}{{ meta("new-set") | indent(indent_size, first=true) }}{% endif %}
+{% endmacro -%}
+
+{% macro tab_end(nesting_count=0) %}{% if use_md %}{{ "`" * (3 + nesting_count) }}{% endif %}{% endmacro -%}
+
+
+{#- -------------------------------------------------------------------------------------------- -#}
+{#-                                          Directives                                          -#}
+{#- -------------------------------------------------------------------------------------------- -#}
+{%- macro directive_fn(name) %}{% set args = {"arguments": kwargs.arguments | default("", true),"indent_level": kwargs.indent_level | default(0, true),"nesting_count": kwargs.nesting_count | default(0, true),"fence_char": kwargs.fence_char | default("`", true),"content_width": kwargs.content_width | default(0, true),"content": kwargs.content | default("", true),} %}{% set _ = args.update({"margin_width": kwargs.margin_width | default(args.content.replace("\n", "").index(args.content.lstrip()[:5])),"use_md": kwargs.use_md | default(use_md),"use_rst": kwargs.use_md | default(use_rst),}) %}{% set _options = {} %}{% for key, value in kwargs.items() if key not in args %}{% set _ = _options.update({key: value}) %}{% endfor %}{% filter indent(indent_size * args.indent_level, first=true) %}{% if args.use_md %}{{ args.fence_char * (3 + args.nesting_count) }}{% if name is equalto "code" and args.arguments %}{{ args.arguments }}{% else %}{{ "{" ~ name ~ "}" }}{% if args.arguments %} {{ args.arguments }}{% endif %}{% endif %}{% else %}.. {{ name }}::{% if args.arguments %} {{ args.arguments }}{% endif %}{% endif %}{% if varargs or _options %}
+{{ meta(*varargs, **_options) | indent(args.margin_width + (indent_size if args.use_rst else 0), first=true) }}{% endif %}
+{% if args.content %}{% if args.use_rst %}
+{% if args.content_width %}{{ reflow_text_fn(args.content, args.content_width) | indent(args.margin_width + indent_size, first=true) }}{% else %}{{ args.content | trim | indent(args.margin_width + indent_size, first=true) }}{% endif %}
+{% else %}{% if args.content_width %}{{ reflow_text_fn(args.content, args.content_width) | indent(args.margin_width, first=true) }}{% else %}{{ args.content | trim | indent(args.margin_width, first=true) }}{% endif %}
+{% endif %} {% endif %} {% if args.use_md %} {{ (args.fence_char * (3 + args.nesting_count)) | indent(args.margin_width, first=true) }} {% endif %} {% endfilter %} {% endmacro -%}
+
+{%- macro directive(name) %}{% set _ = kwargs.update({"content": caller() }) %}{{ directive_fn(name, *varargs, **kwargs) }}{% endmacro -%}
+
+{%- macro admonition_fn(name) %}{% set _ = kwargs.update({"fence_char": "`" }) %}{% if name not in known_admonitions %}{% set _ = kwargs.update({"arguments": kwargs.arguments|default(name|title, true), "class": name }) %}{{ directive_fn("admonition", *varargs, **kwargs) }}{% else %}{{ directive_fn(name, *varargs, **kwargs) }}{% endif %}{% endmacro -%}
+
+{%- macro admonition(name) %}{% set _ = kwargs.update({"content": caller() }) %}{{ admonition_fn(name, *varargs, **kwargs) }}{% endmacro -%}
+
+{%- macro ensure_rst() %}{% if use_md %}```{eval-rst}
+{% endif %}{{ caller().lstrip() }}{% if use_md %}```{% endif %}{% endmacro -%}
+
+
+{#- -------------------------------------------------------------------------------------------- -#}
+{#-                                      Docstring elements                                      -#}
+{#- -------------------------------------------------------------------------------------------- -#}
+{%- macro doc_section(name, indent_level=0) %}{% if use_google_style %}{{ name }}:{% elif use_numpy_style %}{{ underline(name, "-") }}{% endif %}{% endmacro -%}
+
+{%- macro doc_param(name, type="", indent_level=0) %}{% set content = caller() %}{% set margin_width = content.replace("\n", "").index(content.lstrip()[:5]) %}{% if type %}{% if use_google_style %}{% set type = " (" ~ type ~ ")" %}{% elif use_numpy_style %}{% set type = " : " ~ type %}{% endif %}{% endif %}{% if use_google_style %}{% set prefix = name ~ type ~ ":" %}{% elif use_numpy_style %}{% set prefix = name ~ type %}{% else %}{% set prefix = ":param " ~ name ~ ": " %}{% endif %}{% if use_google_style %}{{ prefix | indent((indent_level + 1) * indent_size, first=true) }} {{ indent_block_fn(indent_level + 2, text_width=72-margin_width, first_width=72 - (prefix | length + margin_width + (indent_level + 1) * indent_size), first=false, content=content) }}{% elif use_numpy_style %}{{ prefix | indent(indent_level * indent_size, first=true) }}
+{{ indent_block_fn(indent_level + 1, text_width=72, first=true, content=content) }}{% else %}{{ prefix | indent(indent_level * indent_size, first=true) }} {{ indent_block_fn(indent_level + 1, text_width=72, first_width=72 - (prefix | length + 1 + margin_width + (indent_level + 1) * indent_size), first=false, content=content) }}{% if type %}
+{{ (":type " ~ name ~ ": " ~ type) | indent(margin_width + indent_size * indent_level, first=true) }}{% endif %}{% endif %}{% endmacro -%}
+
+{%- macro doc_return(ret_type="", indent_level=0) %}{% set content = caller() %}{% set margin_width = content.replace("\n", "").index(content.lstrip()[:5]) %}{% if use_sphinx_style %}{% set prefix = ":return: " %}{% else %}{% if use_numpy_style %}{% set prefix = role_type(ret_type or "typing.Any") %}{% else %}{% if ret_type %}{% set prefix = role_type(ret_type) ~ " : " %}{% else %}{% set prefix = "" %}{% endif %}{% endif %}{% endif %}{% if use_google_style %}{{ prefix | indent(indent_size * (indent_level + 1), first=true) }}{{ indent_block_fn(indent_level + 1, text_width=72, first_width=72 - (prefix|length + margin_width + indent_size * (indent_level + 1)), first=false, content=content) }}{% elif use_numpy_style %}{{ prefix | indent(indent_size * indent_level, first=true) }}
+{{ indent_block_fn(indent_level + 1, text_width=72, first=true, content=content) }}{% else %}{{ prefix | indent(indent_size * indent_level, first=true) }}{{ indent_block_fn(indent_level + 1, text_width=72, first_width=72 - (prefix|length + margin_width + indent_size * (indent_level + 1)), first=false, content=content) }}{% if ret_type %}
+{{ (":rtype: " ~ role_type(ret_type)) | indent(margin_width + indent_size * indent_level, first=true) }}{% endif %}{% endif %}{% endmacro -%}

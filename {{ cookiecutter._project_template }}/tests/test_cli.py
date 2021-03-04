@@ -1,8 +1,8 @@
-"""Test cases for the __main__ module."""
+"""Test cases for the cli module."""
 import pytest
 from click.testing import CliRunner
 
-from {{ cookiecutter.__package_name }} import __main__
+from {{ cookiecutter.project.package }} import cli
 
 
 @pytest.fixture
@@ -11,7 +11,7 @@ def runner() -> CliRunner:
     return CliRunner()
 
 
-def test_main_succeeds(runner: CliRunner) -> None:
+def test_run_succeeds(runner: CliRunner) -> None:
     """It exits with a status code of zero."""
-    result = runner.invoke(__main__.{{ cookiecutter.__package_name }})
+    result = runner.invoke(cli.{{ cookiecutter.project.package }})
     assert result.exit_code == 0

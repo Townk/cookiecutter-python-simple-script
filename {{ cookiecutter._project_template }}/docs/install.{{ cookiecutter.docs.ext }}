@@ -1,0 +1,95 @@
+{# -*- mode: jinja2; -*- #}
+{%- import '__macros.jinja' as cc with context -%}
+{{ cc.meta("hide-toc") }}
+
+{{ cc.heading("Installation") }}
+
+{% if cookiecutter.services.pypi.enabled %}
+{{ cc.tab_start("From PyPI", nesting_count=1) }}
+{% call cc.indent_block(0 if cc.use_md else 1, text_width=72 if cc.use_md else (72-cc.indent_size)) %}
+The preferred way to install {{ cookiecutter.project.name }} is through
+{{ cc.link("pip", "https://pip.pypa.io") }} using its distribution from
+{{ cc.link("PyPI", "cookiecutter.services.pypi.project_url") }}:
+{% endcall %}
+
+{% call cc.directive("prompt", arguments="bash $ auto", indent_level=0 if cc.use_md else 1) %}
+$ pip install {{ cookiecutter.project.slug }}
+{% endcall %}
+{{ cc.tab_end(nesting_count=1) }}
+{% endif -%}
+
+{% if cookiecutter.services.github.enabled %}
+{{ cc.tab_start("From GitHub", nesting_count=1) }}
+{% call cc.indent_block(0 if cc.use_md else 1, text_width=72 if cc.use_md else (72-cc.indent_size)) %}
+If you prefer to install {{ cookiecutter.project.name }} directly from GitHub, you can use
+{{ cc.link("pip", "https://pip.pypa.io") }} and point it to the repository and the
+``development`` branch:
+{% endcall %}
+
+{% call cc.directive("prompt", arguments="bash $ auto", indent_level=0 if cc.use_md else 1) %}
+$ pip install 'git+git://github.com/{{ cookiecutter.services.github.username }}/{{ cookiecutter.project.slug }}.git#development'
+{% endcall %}
+{{ cc.tab_end(nesting_count=1) }}
+
+{{ cc.tab_start("From source", nesting_count=1) }}
+{% call cc.indent_block(0 if cc.use_md else 1, text_width=72 if cc.use_md else (72-cc.indent_size)) %}
+To build the source code you will need to have
+{{ cc.link("Poetry", "https://python-poetry.org/") }} installed on your machine. Follow the
+instructions from the
+{{ cc.link("Poetry documentation", "https://python-poetry.org/docs/#installation") }} to
+get this done.
+
+With Poetry installed, you can clone this repository:
+{% endcall %}
+
+{% call cc.directive("prompt", arguments="bash $ auto", indent_level=0 if cc.use_md else 1) %}
+$ git clone {% if cookiecutter.services.github.enabled %}{{ cookiecutter.services.github.clone_url }}{% else %}{{ cookiecutter._output_dir }}/{{ cookiecutter.project.slug }}{% endif %}
+$ cd {{ cookiecutter.project.slug }}
+{% endcall %}
+
+{% call cc.indent_block(0 if cc.use_md else 1, text_width=72 if cc.use_md else (72-cc.indent_size)) %}
+You need to install all dependencies from the project. Use Poetry to do so:
+{% endcall %}
+
+{% call cc.directive("prompt", arguments="bash $ auto", indent_level=0 if cc.use_md else 1) %}
+$ poetry install
+{% endcall %}
+
+{% call cc.indent_block(0 if cc.use_md else 1, text_width=72 if cc.use_md else (72-cc.indent_size)) %}
+After installing the dependencies, the {{ cookiecutter.project.slug }} directory has a Python
+Virtualenv with all dependencies installed on it. Just activate it to use:
+{% endcall %}
+
+{% call cc.directive("prompt", arguments="bash $ auto", indent_level=0 if cc.use_md else 1) %}
+$ poetry shell
+{% endcall %}
+{{ cc.tab_end(nesting_count=1) }}
+{% endif -%}
+
+{{ cc.tab_start("From local directory", nesting_count=1) }}
+{% call cc.indent_block(0 if cc.use_md else 1, text_width=72 if cc.use_md else (72-cc.indent_size)) %}
+To install {{ cookiecutter.project.name }}, get a copy of it and store it on your local file
+system. Then, you can use {{ cc.link("pip", "https://pip.pypa.io") }} to perform the
+installation itself.
+{% endcall %}
+
+{% call cc.directive("prompt", arguments="bash $ auto", indent_level=0 if cc.use_md else 1) %}
+$ pip install /path/to/the/directory/where/{{ cookiecutter.project.slug }}/is/located
+{% endcall %}
+
+{% call cc.indent_block(0 if cc.use_md else 1, text_width=72 if cc.use_md else (72-cc.indent_size)) %}
+This will perform a system wide installation, so you might need to use ``sudo`` for that:
+{% endcall %}
+
+{% call cc.directive("prompt", arguments="bash $ auto", indent_level=0 if cc.use_md else 1) %}
+$ sudo pip install /path/to/the/directory/where/{{ cookiecutter.project.slug }}/is/located
+{% endcall %}
+
+{% call cc.indent_block(0 if cc.use_md else 1, text_width=72 if cc.use_md else (72-cc.indent_size)) %}
+Or if you want to install for your user only, use the ``--user`` flag:
+{% endcall %}
+
+{% call cc.directive("prompt", arguments="bash $ auto", indent_level=0 if cc.use_md else 1) %}
+$ pip install --user /path/to/the/directory/where/{{ cookiecutter.project.slug }}/is/located
+{% endcall %}
+{{ cc.tab_end(nesting_count=1) }}

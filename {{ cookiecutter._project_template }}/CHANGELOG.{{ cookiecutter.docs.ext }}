@@ -1,0 +1,37 @@
+{# -*- mode: jinja2; -*- #}
+{%- import '__macros.jinja' as cc with context -%}
+{{ cc.heading("Changelog") }}
+
+{{ cc.mark_break() }}
+
+{{ cc.heading("Unreleased", heading_level=2) }}
+{% if cookiecutter.repository.enabled %}
+{% call cc.admonition("important") %}
+As you commit more code to your repository, these commits will become part of your changelog.
+Once you're ready to release a new version of your application, follow this workflow:
+
+- Add a new section to this file, bellow the {{ cc.link_ref("Unreleased") }} section, named
+  "``<release version> (<abbreviated month> <day>, <year>)``";
+- Add the ``git_changelog`` directive with the ``rev-list`` as
+  "``<previous release version>..<this release version>``";
+- Change the ``rev-list`` argument from the {{ cc.link_ref("Unreleased") }} section to
+  "``<this release version>..HEAD``";
+{% endcall %}
+
+{{ cc.directive_fn("git_changelog", **{"rev-list": "v" ~ cookiecutter.project.version ~ "..HEAD"}) }}
+{% else %}
+- Development
+
+{% call cc.admonition("todo") %}
+As you finish implementing features or bug fixes, add them to this list
+until you're ready to release a version of your project. Once a new
+release version is defined, add a section for it above this list of
+features and bugfixes, and start a new list under `Unreleased`_.
+{% endcall %}{% endif %}
+
+{{ cc.heading("v" ~ cookiecutter.project.version ~ " (" ~ cookiecutter._date ~ ")", heading_level=2) }}
+{% if cookiecutter.repository.enabled %}
+{{ cc.directive_fn("git_changelog", **{"rev-list": "v" ~ cookiecutter.project.version}) }}
+{% else %}
+- Project {{ cookiecutter.project.name }} created!
+{% endif %}

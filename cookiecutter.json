@@ -1,55 +1,12 @@
 {
-    "project_name": "Awesome Project",
-    "project_description": "Simple Python script",
-    "version": "0.0.1",
-    "author": "Author",
-    "email": "author@email.com",
-    "license": [
-        "None",
-        "MIT",
-        "BSD-3",
-        "GNU GPL v3.0",
-        "Apache Software License 2.0"
-    ],
-    "documentation_language": [
-        "reStructuredText",
-        "Markdown"
-    ],
-    "docstring_style": [
-        "NumPy",
-        "Google",
-        "Sphinx"
-    ],
-    "create_git_repository": "n",
-    "publish_to_github": "n",
-    "github_user": "{{ 'username' }}",
-    "publish_to_PyPI": "n",
-    "integrate_readthedocs": "n",
-    "_new_lines": "\n",
-    "_licenses": {
-        "MIT": {
-            "lice": "mit",
-            "url": "https://opensource.org/licenses/MIT"
-        },
-        "BSD-3": {
-            "lice": "bsd3",
-            "url": "https://opensource.org/licenses/BSD-3-Clause"
-        },
-        "GNU GPL v3.0": {
-            "lice": "gpl3",
-            "url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
-        },
-        "Apache Software License 2.0": {
-            "lice": "apache",
-            "url": "https://www.apache.org/licenses/LICENSE-2.0"
-        }
-    },
-    "__project_slug": "{{ cookiecutter.project_name|slugify }}",
-    "__package_name": "{{ cookiecutter.__project_slug|replace('-', '') }}",
-    "__use_markdown": "{{ 'y' if cookiecutter.documentation_language == 'Markdown' else 'n' }}",
-    "__use_git": "{{ cookiecutter.create_git_repository.lower() }}",
-    "__use_github": "{{ 'y' if cookiecutter.__use_git == 'y' and cookiecutter.publish_to_github.lower() == 'y' else 'n' }}",
-    "__use_readthedocs": "{{ 'y' if cookiecutter.__use_github== 'y' and cookiecutter.integrate_readthedocs.lower() == 'y' else 'n' }}",
-    "__use_pypi": "{{ 'y' if cookiecutter.__use_github == 'y' and cookiecutter.publish_to_PyPI.lower() == 'y' else 'n' }}",
-    "__doc_ext": "{{ 'md' if cookiecutter.__use_markdown == 'y' else 'rst' }}"
+    "_project_template": "__PROJECT__",
+    "_copy_without_render": [
+        "__context_update.jinja",
+        "__macros.jinja",
+        ".editorconfig",
+        ".gitignore",
+        ".pre-commit-config.yaml",
+        ".readthedocs.yaml",
+        "docs/_templates/*"
+    ]
 }

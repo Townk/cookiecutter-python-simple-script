@@ -5,29 +5,34 @@ default_stages: [commit, push]
 
 repos:
     - repo: https://github.com/pre-commit/pre-commit-hooks
-      rev: v2.5.0
+      rev: v3.4.0
       hooks:
           - id: check-yaml
             name: Check YAML files
-            types: [yaml]
 
           - id: check-toml
             name: Check Toml files
-            types: [toml]
 
           - id: check-json
             name: Check JSON files
-            types: [json]
+
+          - id: check-case-conflict
+            name: Check file name case conflicts
+
+          - id: check-merge-conflict
+            name: Check merge conflicts not resolved
+
+          - id: check-symlinks
+            name: Check missing targets for symlinks
+
+          - id: destroyed-symlinks
+            name: Check for symlinks converted to file
 
           - id: end-of-file-fixer
             name: Fix End of Files
-            types: [text]
-            stages: [commit, push, manual]
 
           - id: trailing-whitespace
             name: Trim Trailing Whitespace
-            types: [text]
-            stages: [commit, push, manual]
 
           - id: check-added-large-files
             name: Check for added large files
@@ -38,6 +43,13 @@ repos:
           - id: prettier
             name: Prettifying non-Python files
             exclude_types: [python]
+
+    - repo: https://github.com/jorisroovers/gitlint
+      rev: v0.15.0
+      hooks:
+          - id: gitlint
+            name: Validating Git commit message
+            stages: [commit-msg]
 
     - repo: local
       hooks:
@@ -58,7 +70,7 @@ repos:
             require_serial: true
 
           - id: my-py
-            name: Checking type-hints
+            name: Static type checker
             entry: poetry run task lint-mypy
             language: system
             files: ^src/.*\.py$
@@ -73,11 +85,19 @@ repos:
             name: Checking security
             entry: poetry run task lint-safety
             language: system
-            files: pyproject\.toml
+            files: ^src/.*\.py$
+
+          - id: wily-build
+            name: Updating complexity cache
+            entry: poetry run task complexity-build
+            language: python
+            stages: [post-commit]
+            additional_dependencies: [wily]
+            require_serial: true
 
           - id: wily
-            name: wily
-            entry: poetry run wily diff
-            verbose: true
+            name: Complexity analysis
+            entry: poetry run task complexity-wily diff
             language: python
             additional_dependencies: [wily]
+            require_serial: true
